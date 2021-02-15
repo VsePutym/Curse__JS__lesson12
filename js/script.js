@@ -11,7 +11,6 @@ const render = function () {
     todoList.textContent = '';
     ulTodoCompleted.textContent = '';
 
-    console.log(todoData);
     todoData.forEach(function (item) {
         const li = document.createElement('li');
         li.classList.add('todo-item');
@@ -34,6 +33,7 @@ const render = function () {
         const removed = li.querySelector('.todo-remove');
         removed.addEventListener('click', function () {
             todoData.splice(-1, 1);
+            localStorage.setItem('memory', JSON.stringify(todoData));
             render();
         });
     });
@@ -41,11 +41,12 @@ const render = function () {
 
 const showTodo = function(){
     todoData = JSON.parse(localStorage.getItem('memory'));
+    render();
 };
-
 
 todoControl.addEventListener('submit', function (event) {
     event.preventDefault();
+    
     const newTodo = {
         value: headerInput.value,
         completed: false
@@ -58,8 +59,6 @@ todoControl.addEventListener('submit', function (event) {
         alert('вы сюда ничего не записали');
     }
     localStorage.setItem('memory', JSON.stringify(todoData));
-
 });
 showTodo();
 render();
-showTodo();
